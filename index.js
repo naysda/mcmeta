@@ -68,12 +68,12 @@ req.get(URL, (err, res, body) => {
             return;
         }
 
-        let type = "";
+        let group = "";
         let codename = "";
         for (const [_type, obj] of Object.entries(GROUPS)) {
             for (const [format, [groups, regex]] of Object.entries(obj)) {
                 if (regex.test(first)) {
-                    type = _type;
+                    group = _type;
                     codename = format;
                     for (let i = 0; i < groups; i++) {
                         codename = codename.replace("{}", first.match(regex)[i+1] || "");
@@ -83,7 +83,7 @@ req.get(URL, (err, res, body) => {
             }
         }
 
-        if (!type || !codename) throw new Error(`Unknown version type: ${first}`);
+        if (!group || !codename) throw new Error(`Unknown version type: ${first}`);
         
         if (second) {
             if (!second.startsWith("snapshot")) {
@@ -95,7 +95,7 @@ req.get(URL, (err, res, body) => {
         }
         
         data[codename.replaceAll(".", "_")] = {
-            type,
+            group,
             pretty: first,
             protocolVersion
         };
