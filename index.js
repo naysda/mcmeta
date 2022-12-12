@@ -69,21 +69,21 @@ req.get(URL, (err, res, body) => {
         }
 
         let type = "";
-        let pretty = "";
+        let codename = "";
         for (const [_type, obj] of Object.entries(TYPES)) {
             for (const [format, [groups, regex]] of Object.entries(obj)) {
                 if (regex.test(first)) {
                     type = _type;
-                    pretty = format;
+                    codename = format;
                     for (let i = 0; i < groups; i++) {
-                        pretty = pretty.replace("{}", first.match(regex)[i+1] || "");
+                        codename = codename.replace("{}", first.match(regex)[i+1] || "");
                     }
                     break;
                 }
             }
         }
 
-        if (!type || !pretty) throw new Error(`Unknown version type: ${first}`);
+        if (!type || !codename) throw new Error(`Unknown version type: ${first}`);
         
         if (second) {
             if (!second.startsWith("snapshot")) {
@@ -94,7 +94,11 @@ req.get(URL, (err, res, body) => {
             }
         }
         
-        data[pretty.replaceAll(".", "_")] = { type, protocolVersion };
+        data[codename.replaceAll(".", "_")] = {
+            type,
+            pretty: first,
+            protocolVersion
+        };
     });
 
     // save
