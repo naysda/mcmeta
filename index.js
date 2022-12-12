@@ -59,6 +59,9 @@ req.get(URL, (err, res, body) => {
         const tmp = el.find("td, th");
         const [first, second] = [tmp.eq(0), tmp.eq(1)].map((x) => x.text().trim().toLowerCase());
 
+        // Avoid duplicates (?? 14w29a)
+        if (gameVersions.some((ver) => ver.pretty === first)) return;
+
         if (i === 0) {
             if (first !== "release name" || second !== "version number") {
                 throw new Error("Invalid table header");
