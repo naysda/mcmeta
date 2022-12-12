@@ -51,8 +51,7 @@ req.get(URL, (err, res, body) => {
     const table = tableHeader.nextAll("table").first();
     if (!table.length) throw new Error("Table not found");
 
-    const gameVersions = {};
-    const protocolVersions = {};
+    const gameVersions = [];
 
     let protocolVersion = 0;
     table.find("tr").each((i, _el) => {
@@ -97,19 +96,14 @@ req.get(URL, (err, res, body) => {
 
         const final = codename.replaceAll(".", "_");
 
-        gameVersions[final] = {
-            group,
+        gameVersions.push({
+            codename: final,
             pretty: first,
+            group,
             protocolVersion,
-        };
-
-        if (!protocolVersions[protocolVersion]) protocolVersions[protocolVersion] = [];
-        protocolVersions[protocolVersion].push(final);
+        });
     });
 
     // save
-    fs.writeFileSync("./public/index.json", JSON.stringify({
-        gameVersions,
-        protocolVersions,
-    }));
+    fs.writeFileSync("./public/index.json", JSON.stringify(gameVersions));
 });
