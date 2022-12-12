@@ -5,12 +5,12 @@ import cheerio from "cheerio";
 
 const URL = "http://wiki.vg/index.php?title=Protocol_version_numbers";
 
-const TYPES = {
-    "joke": {
+const GROUPS = {
+    "april-fools": {
         // Joke releases
         "v1_rv1_pre1": [0, /^1\.rv-pre1$/], // 2016 Trendy Update
         "snap_20w14inf": [0, /^20w14∞$/], // 2020 Ultimate Content Update
-        "snap_22w13_obaat": [0, /^22w13oneblockatatime$/], // 2022 One Block At A Time update
+        "snap_22w13obaat": [0, /^22w13oneblockatatime$/], // 2022 One Block At A Time update
     },
 
     "snapshot": {
@@ -18,18 +18,18 @@ const TYPES = {
         "snap_{}": [1, /^([0-9]+w[0-9]+[a-z])*$/],
     },
 
-    "pre": {
+    "pre-release": {
         // for example v1_7_pre or v1_7_6_pre1
         "v{}_pre{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-pre([0-9])*$/],
         "v1_14_3_ct": [0, /^1\.14\.3 - combat test$/] // pre5?
     },
 
-    "rc": {
+    "release-candidate": {
         // for example v1_16_rc1
         "v{}_rc{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-rc([0-9])*$/],
     },
 
-    "exp": {
+    "experimental": {
         // for example v1_18_exp1
         "v{}_exp{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-exp([0-9])*$/],
     },
@@ -70,7 +70,7 @@ req.get(URL, (err, res, body) => {
 
         let type = "";
         let codename = "";
-        for (const [_type, obj] of Object.entries(TYPES)) {
+        for (const [_type, obj] of Object.entries(GROUPS)) {
             for (const [format, [groups, regex]] of Object.entries(obj)) {
                 if (regex.test(first)) {
                     type = _type;
