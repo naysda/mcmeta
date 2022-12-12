@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches: [ trunk ]
+  pull_request:
+    branches: [ trunk ]
+  schedule:
+    # Once every day, at 4PM
+    - cron: '0 16 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Sync dependencies
+        run: npm ci
+      - name: Run script
+        run: node .
+      - name: Deploy
+        if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

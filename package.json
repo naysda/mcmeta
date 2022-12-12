@@ -1,0 +1,28 @@
+{
+  "name": "mc-meta",
+  "version": "1.0.0",
+  "description": "Machine-readable up-to-date Minecraft protocol metadata from https://wiki.vg, as JSON.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naysda/mcmeta.git"
+  },
+  "keywords": [
+    "wiki.vg",
+    "minecraft"
+  ],
+  "author": "lambdagg <lambdagg@tuta.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naysda/mcmeta/issues"
+  },
+  "homepage": "https://github.com/naysda/mcmeta#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "request": "^2.88.2"
+  }
+}
