@@ -14,8 +14,8 @@ const GROUPS = {
     },
 
     "snapshot": {
-        // for example snap_13w41a
-        "snap_{}": [1, /^([0-9]+w[0-9]+[a-z])*$/],
+        // for example snap13w41a
+        "snap{}": [1, /^([0-9]+w[0-9]+[a-z])*$/],
     },
 
     "pre-release": {
