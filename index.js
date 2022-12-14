@@ -9,8 +9,8 @@ const GROUPS = {
     "april-fools": {
         // Joke releases
         "v1_rv1_pre1": [0, /^1\.rv-pre1$/], // 2016 Trendy Update
-        "snap_20w14inf": [0, /^20w14∞$/], // 2020 Ultimate Content Update
-        "snap_22w13obaat": [0, /^22w13oneblockatatime$/], // 2022 One Block At A Time update
+        "snap20w14inf": [0, /^20w14∞$/], // 2020 Ultimate Content Update
+        "snap22w13obaat": [0, /^22w13oneblockatatime$/], // 2022 One Block At A Time update
     },
 
     "snapshot": {
