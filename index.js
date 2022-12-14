@@ -8,34 +8,34 @@ const URL = "http://wiki.vg/index.php?title=Protocol_version_numbers";
 const GROUPS = {
     "april-fools": {
         // Joke releases
-        "v1_rv1_pre1": [0, /^1\.rv-pre1$/], // 2016 Trendy Update
-        "snap20w14inf": [0, /^20w14∞$/], // 2020 Ultimate Content Update
-        "snap22w13obaat": [0, /^22w13oneblockatatime$/], // 2022 One Block At A Time update
+        "v1_rv1_pre1": [0, /^1\.rv-pre1$/i], // 2016 Trendy Update
+        "snap20w14inf": [0, /^20w14∞$/i], // 2020 Ultimate Content Update
+        "snap22w13obaat": [0, /^22w13oneblockatatime$/i], // 2022 One Block At A Time update
     },
 
     "snapshot": {
         // for example snap13w41a
-        "snap{}": [1, /^([0-9]+w[0-9]+[a-z])*$/],
+        "snap{}": [1, /^([0-9]+w[0-9]+[a-z])*$/i],
     },
 
     "pre-release": {
         // for example v1_7_pre or v1_7_6_pre1
-        "v{}_pre{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-pre([0-9])*$/],
-        "v1_14_3_ct": [0, /^1\.14\.3 - combat test$/] // pre5?
+        "v{}_pre{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-pre([0-9])*$/i],
+        "v1_14_3_ct": [0, /^1\.14\.3 - combat test$/i] // pre5?
     },
 
     "release-candidate": {
         // for example v1_16_rc1
-        "v{}_rc{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-rc([0-9])*$/],
+        "v{}_rc{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-rc([0-9])*$/i],
     },
 
     "experimental": {
         // for example v1_18_exp1
-        "v{}_exp{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-exp([0-9])*$/],
+        "v{}_exp{}": [2, /^([0-9]+\.[0-9]+(?:\.[0-9]+)?)-exp([0-9])*$/i],
     },
 
     "release": {
-        "v{}": [1, /^([0-9]+\.[0-9]+(\.[0-9]+)?)$/],
+        "v{}": [1, /^([0-9]+\.[0-9]+(\.[0-9]+)?)$/i],
     }
 }
 
@@ -57,13 +57,14 @@ req.get(URL, (err, res, body) => {
     table.find("tr").each((i, _el) => {
         const el = root(_el);
         const tmp = el.find("td, th");
-        const [first, second] = [tmp.eq(0), tmp.eq(1)].map((x) => x.text().trim().toLowerCase());
+        const [first, second] = [tmp.eq(0), tmp.eq(1)].map((x) => x.text().trim());
 
         // Avoid duplicates (?? 14w29a)
         if (gameVersions.some((ver) => ver.pretty === first)) return;
 
         if (i === 0) {
-            if (first !== "release name" || second !== "version number") {
+            if (first.toLowerCase() !== "release name"
+                || second.toLowerCase() !== "version number") {
                 throw new Error("Invalid table header");
             }
 
@@ -79,7 +80,7 @@ req.get(URL, (err, res, body) => {
                     group = _type;
                     codename = format;
                     for (let i = 0; i < groups; i++) {
-                        codename = codename.replace("{}", first.match(regex)[i+1] || "");
+                        codename = codename.replace("{}", first.match(regex)[i + 1] || "");
                     }
                     break;
                 }
@@ -87,7 +88,7 @@ req.get(URL, (err, res, body) => {
         }
 
         if (!group || !codename) throw new Error(`Unknown version type: ${first}`);
-        
+
         if (second) {
             if (!second.startsWith("snapshot")) {
                 protocolVersion = parseInt(second);
