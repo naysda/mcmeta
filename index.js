@@ -90,7 +90,7 @@ req.get(URL, (err, res, body) => {
         if (!group || !codename) throw new Error(`Unknown version type: ${first}`);
 
         if (second) {
-            if (!second.startsWith("snapshot")) {
+            if (!second.toLowerCase().startsWith("snapshot")) {
                 protocolVersion = parseInt(second);
             } else {
                 // Starting from 1.16.4-pre1
