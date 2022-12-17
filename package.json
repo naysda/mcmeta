@@ -16,7 +16,7 @@
     "minecraft"
   ],
   "author": "lambdagg <lambdagg@tuta.io>",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/naysda/mcmeta/issues"
   },
