@@ -11,6 +11,7 @@ const GROUPS = {
         "v1_rv1_pre1": [0, /^1\.rv-pre1$/i], // 2016 Trendy Update
         "snap20w14inf": [0, /^20w14∞$/i], // 2020 Ultimate Content Update
         "snap22w13obaat": [0, /^22w13oneblockatatime$/i], // 2022 One Block At A Time update
+        "snap23w13ab": [0, /^23w13a_or_b$/i], // 2023 Vote update
     },
 
     "snapshot": {
